@@ -33,7 +33,9 @@ The program should now serialize a Java object into a `.ser` file and then deser
    ```sh
    cd java-utils-exercises
    ```
-3. Compile and run the Java classes as needed.
+3. Compile and run the Java classes as needed. For example:
+   javac -d . level1_ex1/DirectoryLister.java
+   java level1_ex1.DirectoryLister [path]
 
 ## Author
 [Aldo Santa María]

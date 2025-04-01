@@ -1,11 +1,10 @@
 package level1_ex2;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.DirectoryIteratorException;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Date;
 
 public class DirectoryListerRecursive {
 
@@ -17,9 +16,12 @@ public class DirectoryListerRecursive {
             if (directory.exists() && directory.isDirectory()) {
                 File[] files = directory.listFiles();
                 if (files != null) {
+                    Arrays.sort(files, Comparator.comparing(File::getName, String.CASE_INSENSITIVE_ORDER));
                     for (File file : files) {
                         String type = file.isDirectory() ? "📁 DIR -> " : "📄 FILE -> ";
-                        System.out.println(type + file.getName());
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        String lastModified = dateFormat.format(new Date(file.lastModified()));
+                        System.out.println(type + file.getName() + " (Last modified: " + lastModified + ")");
                         if (file.isDirectory()) {
                             recursiveListDirectoryContents(file.getAbsolutePath());
                         }

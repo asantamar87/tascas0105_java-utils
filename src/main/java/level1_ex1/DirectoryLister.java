@@ -1,6 +1,8 @@
 package level1_ex1;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class DirectoryLister {
 
@@ -11,9 +13,10 @@ public class DirectoryLister {
             if(directory.exists() && directory.isDirectory()){
                 File[] files = directory.listFiles();
                 if(files != null) {
+                    Arrays.sort(files, Comparator.comparing(File::getName, String.CASE_INSENSITIVE_ORDER));
                     for (File file : files) {
                         String type = file.isDirectory() ? "📁 DIR " : "📄 FILE";
-                        System.out.println(type + file.getName());
+                        System.out.println(type+" " + file.getName());
                     }
                 }
             } else{

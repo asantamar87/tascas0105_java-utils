@@ -3,39 +3,40 @@ package level1_ex3;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.StringJoiner;
+import java.util.Comparator;
 
 
 public class DirectoryListerToFile {
 
-    private static void listAndSaveDirectoryContents(String path, String filename, int level, StringBuilder output) {
-        try (FileWriter writer = new FileWriter(filename)) {
+    private static void listDirectoryContents(String path, int depth, StringBuilder output) {
+        File directory = new File(path);
+        if (directory.exists() && directory.isDirectory()) {
+            File[] files = directory.listFiles();
+            if (files != null && files.length > 0) {
+                Arrays.sort(files, Comparator.comparing(File::getName, String.CASE_INSENSITIVE_ORDER));
+                for (File file : files) {
+                    String type = file.isDirectory() ? "[DIR]" : "[FILE]";
+                    String indent = "  ".repeat(depth);
+                    output.append(String.format("%s%s %s%n", indent, type, file.getName()));
 
-            File directory = new File(path);
+                    if (file.isDirectory()) {
+                        listDirectoryContents(file.getAbsolutePath(), depth + 1, output);
 
-            if (directory.exists() && directory.isDirectory()) {
-                File[] files = directory.listFiles();
-                if (files != null && files.length > 0) {
-                    Arrays.sort(files, (f1, f2) -> f1.getName().compareToIgnoreCase(f2.getName()));
-
-                    for (File file : files) {
-                        String type = file.isDirectory() ? "[DIR]" : "[FILE]";
-                        String indent = "  ".repeat(level);
-                        output.append(String.format("%s%s %s%n", indent, type, file.getName()));
-
-                        if (file.isDirectory()) {
-                            listAndSaveDirectoryContents(file.getAbsolutePath(), filename, level + 1, output);
-                        }
                     }
-                } else {
-                    output.append("The " + directory.getName() + " directory is empty.\n");
                 }
             } else {
-                output.append("The directory does not exist or is not a valid directory.\n");
+                output.append("The " + directory.getName() + " directory is empty.\n");
             }
-            writer.write(output.toString());
+        } else {
+            output.append("The directory does not exist or is not a valid directory.\n");
+        }
+
+    }
+
+    private static void saveToFile(String filename, StringBuilder output) {
+        try (FileWriter writer = new FileWriter(filename)) {
+            writer.append(output);
             System.out.println("Directory contents saved to " + filename);
         } catch (IOException e) {
             System.out.println("Error writing to file: " + e.getMessage());
@@ -46,16 +47,20 @@ public class DirectoryListerToFile {
         }
     }
 
-
-
+    public static void listAndSaveDirectoryContents(String path, String filename) {
+        StringBuilder output = new StringBuilder();
+        listDirectoryContents(path, 0, output);
+        saveToFile(filename, output);
+    }
 
 
     public static void main(String[] args) {
-        if (args.length > 0) {
-            StringBuilder output = new StringBuilder();
-            listAndSaveDirectoryContents(args[0], "directory_list.txt", 0, output);
+        if (args.length == 2) {
+            String path = args[0];
+            String filename = args[1];
+            listAndSaveDirectoryContents(path, filename);
         } else {
-            System.out.println("Please provide the directory path as a parameter.");
+            System.out.println("Usage: java DirectoryHandler <directory_path> <output_filename>");
         }
     }
 }

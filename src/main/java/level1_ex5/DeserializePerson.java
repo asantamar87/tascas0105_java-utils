@@ -7,9 +7,17 @@ import java.io.ObjectInputStream;
 
 public class DeserializePerson {
     public static void main(String[] args) {
-        String path = "resources" + File.separator + "person.ser";
 
-        try (FileInputStream fileIn = new FileInputStream(path);
+        String directoryPath = "resources";
+        String filePath = directoryPath + File.separator + "person.ser";
+
+        File parentDir = new File(directoryPath);
+        if(!parentDir.exists() && !parentDir.isDirectory()){
+            System.err.println("Failed to create directory: " + directoryPath);
+            return;
+        }
+
+        try (FileInputStream fileIn = new FileInputStream(filePath);
              ObjectInputStream in = new ObjectInputStream(fileIn)) {
             Person person = (Person) in.readObject();
             System.out.println("Person object deserialized: " + person);
