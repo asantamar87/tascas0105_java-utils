@@ -1,0 +1,7 @@
+Aquest és un fitxer de text que provarem
+de transformar de UTF-8 (format original)
+a CP1252  (Format del Windows). El fitxer
+resultant, quedarà amb el mateix nom seguit
+de _CP1252 i la mateix extensió Per aquest
+fitxer, de nom Prova.txt, el fitxer
+transformat es dirà:  Prova_CP1252.txt

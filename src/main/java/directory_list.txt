@@ -1,0 +1,18 @@
+[FILE] directory_list.txt
+[FILE] Exemple.txt
+[DIR] level1_ex1
+  [FILE] DirectoryLister.class
+  [FILE] DirectoryLister.java
+[DIR] level1_ex2
+  [FILE] DirectoryListerRecursive.class
+  [FILE] DirectoryListerRecursive.java
+[DIR] level1_ex3
+  [FILE] DirectoryListerToFile.class
+  [FILE] DirectoryListerToFile.java
+[DIR] level1_ex4
+  [FILE] DirectoryListerReadFile.class
+  [FILE] DirectoryListerReadFile.java
+[DIR] level1_ex5
+  [FILE] DeserializePerson.java
+  [FILE] Person.java
+  [FILE] SerializePerson.java
